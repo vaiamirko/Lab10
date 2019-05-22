@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import it.polito.tdp.porto.model.Author;
 import it.polito.tdp.porto.model.Paper;
@@ -62,6 +65,60 @@ public class PortoDAO {
 
 		} catch (SQLException e) {
 			 e.printStackTrace();
+			throw new RuntimeException("Errore Db");
+		}
+	}
+	
+	public List<Author> getAllAutore() {
+
+		final String sql = "SELECT * FROM author ";
+
+		List<Author> listaautori = new ArrayList();
+		
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+
+				Author autore = new Author(rs.getInt("id"), rs.getString("lastname"), rs.getString("firstname"));
+				listaautori.add(autore);
+			}
+
+			return listaautori;
+
+		} catch (SQLException e) {
+			// e.printStackTrace();
+			throw new RuntimeException("Errore Db");
+		}
+	}
+	
+	public List<Author> getCOAutori(Map<Integer,Author> mappaAutori,int idAutore) {
+
+		final String sql = "SELECT * FROM author ";
+
+		List<Author> listaautori = new ArrayList();
+		
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+
+				Author autore = new Author(rs.getInt("id"), rs.getString("lastname"), rs.getString("firstname"));
+				listaautori.add(autore);
+			}
+
+			return listaautori;
+
+		} catch (SQLException e) {
+			// e.printStackTrace();
 			throw new RuntimeException("Errore Db");
 		}
 	}
